@@ -423,95 +423,19 @@ const slides = [
       </div>
     </div>`},
 
-  {label:"À propos", render:()=>`
-    <div class="slide-inner" style="padding:24px">
-      <div class="label">Écosystème Béryl</div>
-      <h2 style="margin-bottom:16px">Infrastructure · Services · Sécurité</h2>
-      <div id="about-tabs" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px">
-        ${[["🌍","Vision"],["💬","Community"],["💳","BérylPay"],["🚗","E-Mobility"],["🌱","ESG"],["📊","Audit PME"],["⚙️","Tech"],["🔒","Sécurité"]].map(([e,t],i)=>`
-          <div onclick="setTab(${i})" id="abt-${i}" style="padding:5px 12px;border-radius:8px;cursor:pointer;font-size:11px;font-weight:700;border:1px solid ${i===0?'#00FF88':'#1A2820'};background:${i===0?'#014421':'#131E16'};color:${i===0?'#fff':'#6E9A7A'};transition:all .15s">${e} ${t}</div>`).join('')}
-      </div>
-      <div id="about-content" style="font-size:12px;line-height:1.7">
-      </div>
-    </div>
-    <script>
-    const aboutData = [
-      {
-        title:"Béryl Holding S.A.S. — L'infrastructure numérique de l'Afrique de demain",
-        color:"#00FF88",
-        desc:"Béryl Holding S.A.S. est une société technologique panafricaine dont la mission est de construire la première Super-App intelligente du continent, reliant mobilité durable, inclusion financière, engagement communautaire et responsabilité environnementale en un seul écosystème intégré. Notre ambition est de servir 500 millions d'Africains d'ici 2035, en construisant une couche technologique souveraine qui répond aux réalités du terrain.",
-        points:["Super-App intégrée : mobilité + fintech + communauté + ESG","Architecture microservices cloud-native, conçue pour scaler de Dakar à Nairobi","Modèle de revenus diversifié : SaaS, commissions, crédits carbone, data B2B","Gouvernance ESG embarquée dès le premier jour — en ADN","Présence cible : Afrique de l'Ouest, Centrale, puis diaspora mondiale"],
-        uvp:"Béryl n'est pas une application. C'est une infrastructure de confiance — le système d'exploitation économique et social de la nouvelle Afrique urbaine."
-      },
-      {
-        title:"BérylCommunity — Le lien social qui crée de la valeur économique",
-        color:"#BF5AF2",
-        desc:"BérylCommunity est le réseau social natif de l'écosystème Béryl, conçu pour les Africains et la diaspora mondiale. Contrairement aux plateformes occidentales qui extraient la donnée sans redistribuer la valeur, BérylCommunity transforme chaque interaction sociale en opportunité économique réelle : payer un ami, rejoindre une tontine, réserver un véhicule électrique — tout depuis le fil d'actualité.",
-        points:["Feed social avec posts, stories, groupes communautaires et événements locaux","Paiement P2P intégré directement dans les conversations (via BérylPay)","Tontines digitales depuis le réseau social","Réservation VTC électrique en un tap depuis n'importe quel post","Score de réputation communautaire alimentant l'accès aux services financiers","Partage d'impact carbone personnel (CO₂ économisé, arbres plantés)","Notifications intelligentes via BérylAI"],
-        uvp:"Le seul réseau social africain où chaque like peut se transformer en transaction économique réelle — sans quitter l'application, sans friction."
-      },
-      {
-        title:"BérylPay — L'inclusion financière à portée de main",
-        color:"#00FF88",
-        desc:"BérylPay est la colonne vertébrale financière de l'écosystème Béryl : un wallet multi-devises, multi-canaux et multi-services. De l'étudiant dakarois qui envoie de l'argent à sa famille à l'entrepreneur ivoirien qui collecte ses paiements en QR code, BérylPay couvre l'ensemble du parcours financier quotidien. Conforme BCEAO, intégré aux banques partenaires locales et Mobile Money.",
-        points:["Wallet multi-devises (XOF, XAF, EUR, USD, GHS, NGN...)","Transferts instantanés P2P natifs, zéro frais intra-Béryl","Tontines digitales : création, cotisation, tirage au sort transparent","Épargne programmée avec objectifs (mariage, scolarité, investissement)","Paiement marchand QR code — sans terminal physique","Transferts diaspora Europe → Afrique taux compétitifs","Micro-crédit scoring via BérylAI basé sur l'historique transactionnel"],
-        uvp:"BérylPay transforme un smartphone en agence bancaire complète — accessible à celui qui n'a jamais eu de compte bancaire."
-      },
-      {
-        title:"Béryl E-Mobility — Se déplacer proprement, partout en Afrique",
-        color:"#64D2FF",
-        desc:"Béryl E-Mobility est le service de transport à la demande 100% électrique de l'écosystème Béryl. Chaque trajet est tracé, tarifé de manière transparente, payé via BérylPay et converti en impact environnemental mesurable inscrit au profil du passager. Le service intègre BérylGreen Points — programme de fidélité récompensant la mobilité durable.",
-        points:["Réservation VTC électrique en temps réel (carte + ETA)","Flotte 100% véhicules électriques : zéro émission","Tarification dynamique transparente avec estimation avant validation","Paiement natif BérylPay : wallet, QR, mobile money","Calcul CO₂ évité par trajet, affiché et cumulé dans le profil","BérylGreen Points : loyauté récompensant la mobilité verte","Tableau de bord chauffeur : revenus, trajets, score, impact carbone"],
-        uvp:"Le premier VTC africain où chaque trajet est simultanément un acte économique, un geste écologique et une contribution à la transition énergétique."
-      },
-      {
-        title:"BérylESG / GreenOS — Mesurer, certifier et monétiser l'impact vert",
-        color:"#00C4B4",
-        desc:"BérylESG, propulsé par GreenOS, est le moteur de responsabilité ESG de l'écosystème Béryl. Système natif de scoring ESG évaluant en continu les comportements des utilisateurs et des entreprises, il les traduit en crédits carbone certifiables et en score IAESG. GreenOS intègre un protocole MRV conforme aux standards internationaux (Gold Standard, Verra VCS).",
-        points:["Score IAESG individuel et entreprise en temps réel","MRV intégré : mesure automatique des émissions évitées","Génération de crédits carbone certifiables depuis la flotte électrique","Tableau de bord ESG entreprise : reporting réglementaire, audit trail","Marketplace crédits carbone entre entreprises et ONG","Conformité : ODD (ONU), Accord de Paris, CSRD européenne","API ouverte pour banques, assureurs et fonds ESG"],
-        uvp:"GreenOS est le premier système d'exploitation vert africain — chaque tonne de CO₂ évitée devient un actif financier réel."
-      },
-      {
-        title:"Audit PME Béryl — Le cabinet comptable dans votre poche",
-        color:"#D4AF37",
-        desc:"Le module Audit PME s'adresse aux PME africaines sans accès à des outils comptables professionnels abordables. Il offre un journal comptable intelligent, un scoring financier automatisé — le BFOS (Béryl Financial Operations Score) — et des recommandations personnalisées générées par BérylAI pour améliorer la santé financière de l'entreprise.",
-        points:["Journal comptable digital : recettes, dépenses, factures simplifié","BFOS : score de santé financière sur 1000","Bilan mensuel automatique : P&L, trésorerie, ratios clés","Recommandations IA : optimisation des charges, alertes risque","Déclarations fiscales pré-remplies compatibles administrations locales","Rapports bancaires pour dossiers de crédit","Tableau de bord partageable avec expert-comptable ou investisseur"],
-        uvp:"Audit PME Béryl transforme la PME informelle africaine en acteur bankable, crédible et compétitif."
-      },
-      {
-        title:"beryl-os-core — Architecture conçue pour l'Afrique, calibrée pour le monde",
-        color:"#FF9F0A",
-        desc:"L'architecture Béryl repose sur beryl-os-core, noyau d'orchestration de microservices cloud-native. Chaque verticale (paiement, mobilité, ESG, communauté, audit) est un microservice indépendant, versionné et déployable séparément. BérylAI alimente en temps réel le scoring financier, la personnalisation, la détection de fraude et les recommandations ESG.",
-        points:["Microservices REST/gRPC : auth, payment, mobility, esg, community, audit","API Gateway centralisée avec rate limiting, routing et versioning","Event-driven via Kafka/Pub-Sub pour communication inter-services","PostgreSQL + Redis + Firestore selon les cas d'usage","Docker + Kubernetes sur GCP / infrastructure africaine","Android Jetpack Compose : MVVM + Clean Architecture + Offline-first","BérylAI : NLP multilingue, scoring BFOS/IAESG, détection fraude"],
-        uvp:"beryl-os-core : architecture enterprise déployée avec l'agilité d'une startup — conçue pour les réseaux africains aujourd'hui, scalable à 100M users demain."
-      },
-      {
-        title:"Sécurité Béryl — La confiance comme fondation irréductible",
-        color:"#FF453A",
-        desc:"La sécurité est la pierre angulaire de l'écosystème Béryl — une philosophie architecturale intégrée dès la conception. sentinel-core surveille en permanence l'intégrité des transactions, sessions et flux de données. Béryl combine les standards internationaux de cybersécurité et les exigences spécifiques BCEAO pour l'espace UEMOA.",
-        points:["Firebase Auth : OTP SMS, biométrie, MFA obligatoire pour opérations financières","PIN bancaire chiffré AES-256 — jamais transmis en clair","JWT signés avec rotation automatique des tokens","sentinel-core : détection anomalies, blacklist IP, alertes push temps réel","Logs d'audit immuables pour toutes les opérations financières","Conformité BCEAO EME, KYC/AML, RGPD, TLS 1.3","Politique Zero Trust : aucun microservice ne fait confiance sans vérification"],
-        uvp:"La sécurité Béryl est une architecture vivante, surveillée 24h/24 — protégeant chaque centime, chaque donnée et chaque identité."
-      }
-    ];
+  ,
 
-    function setTab(i){
-      document.querySelectorAll('[id^="abt-"]').forEach((el,j)=>{
-        el.style.background = j===i?'#014421':'#131E16';
-        el.style.borderColor = j===i?'#00FF88':'#1A2820';
-        el.style.color = j===i?'#fff':'#6E9A7A';
-      });
-      const d = aboutData[i];
-      document.getElementById('about-content').innerHTML = \`
-        <div style="color:\${d.color};font-weight:900;font-size:14px;margin-bottom:8px">\${d.title}</div>
-        <div style="color:#B0C4B8;margin-bottom:12px;line-height:1.7">\${d.desc}</div>
-        <div style="margin-bottom:12px">
-          \${d.points.map(p=>\`<div style="display:flex;gap:8px;margin-bottom:6px;align-items:flex-start"><span style="color:\${d.color};flex-shrink:0">▸</span><span style="color:#E8F5EC">\${p}</span></div>\`).join('')}
-        </div>
-        <div style="background:\${d.color}18;border:1px solid \${d.color}44;border-radius:10px;padding:12px;color:\${d.color};font-style:italic;font-size:12px">💡 \${d.uvp}</div>
-      \`;
-    }
-    setTimeout(()=>setTab(0), 50);
-    <\/script>`},
+  {label:"À propos", render:()=>{
+    setTimeout(()=>setAboutTab(currentAboutTab||0),10);
+    return `<div class="slide-inner" style="padding:24px">
+      <div class="label">Écosystème Béryl</div>
+      <h2 style="margin-bottom:14px">Infrastructure · Services · Sécurité</h2>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px">
+        ${aboutData.map((d,i)=>`<div class="abt-pill" onclick="setAboutTab(${i})" style="padding:5px 11px;border-radius:8px;cursor:pointer;font-size:11px;font-weight:700;border:1px solid #1A2820;background:#131E16;color:#6E9A7A;transition:all .15s">${d.e} ${d.t}</div>`).join('')}
+      </div>
+      <div id="about-content" style="font-size:12px;line-height:1.7;min-height:250px"></div>
+    </div>`;
+  }},
 
   {label:"L'Appel", render:()=>`
     <div class="cta-center">
@@ -536,6 +460,39 @@ const slides = [
       </div>
     </div>`}
 ];
+
+
+const aboutData = [
+  {e:"🌍",t:"Vision",color:"#00FF88",title:"Béryl Holding S.A.S. — L'infrastructure numérique de l'Afrique de demain",desc:"Béryl Holding S.A.S. est une société technologique panafricaine dont la mission est de construire la première Super-App intelligente du continent, reliant mobilité durable, inclusion financière, engagement communautaire et responsabilité environnementale en un seul écosystème intégré. Notre ambition est de servir 500 millions d'Africains d'ici 2035, en construisant une couche technologique souveraine.",points:["Super-App intégrée : mobilité + fintech + communauté + ESG","Architecture microservices cloud-native, conçue pour scaler de Dakar à Nairobi","Modèle de revenus diversifié : SaaS, commissions, crédits carbone, data B2B","Gouvernance ESG embarquée dès le premier jour — en ADN","Présence cible : Afrique de l'Ouest, Centrale, puis diaspora mondiale"],uvp:"Béryl n'est pas une application. C'est une infrastructure de confiance — le système d'exploitation économique et social de la nouvelle Afrique urbaine."},
+  {e:"💬",t:"Community",color:"#BF5AF2",title:"BérylCommunity — Le lien social qui crée de la valeur économique",desc:"BérylCommunity est le réseau social natif de l'écosystème Béryl, conçu pour les Africains et la diaspora mondiale. Contrairement aux plateformes occidentales, BérylCommunity transforme chaque interaction sociale en opportunité économique réelle : payer un ami, rejoindre une tontine, réserver un véhicule électrique — tout depuis le fil d'actualité.",points:["Feed social avec posts, stories, groupes communautaires et événements locaux","Paiement P2P intégré directement dans les conversations via BérylPay","Tontines digitales depuis le réseau social","Réservation VTC électrique en un tap depuis n'importe quel post","Score de réputation communautaire alimentant l'accès aux services financiers","Partage d'impact carbone personnel (CO₂ économisé)","Notifications intelligentes via BérylAI"],uvp:"Le seul réseau social africain où chaque like peut se transformer en transaction économique réelle — sans friction, sans intermédiaire."},
+  {e:"💳",t:"BérylPay",color:"#00FF88",title:"BérylPay — L'inclusion financière à portée de main",desc:"BérylPay est la colonne vertébrale financière de l'écosystème Béryl : un wallet multi-devises, multi-canaux et multi-services. Conforme BCEAO, intégré aux banques partenaires locales et Mobile Money, il couvre l'ensemble du parcours financier quotidien sans nécessiter de compte bancaire traditionnel.",points:["Wallet multi-devises (XOF, XAF, EUR, USD, GHS, NGN...)","Transferts instantanés P2P natifs, zéro frais intra-Béryl","Tontines digitales : création, cotisation, tirage au sort transparent","Épargne programmée avec objectifs (mariage, scolarité, investissement)","Paiement marchand QR code — sans terminal physique","Transferts diaspora Europe → Afrique taux compétitifs","Micro-crédit scoring via BérylAI basé sur l'historique transactionnel"],uvp:"BérylPay transforme un smartphone en agence bancaire complète — accessible à celui qui n'a jamais eu de compte bancaire."},
+  {e:"🚗",t:"E-Mobility",color:"#64D2FF",title:"Béryl E-Mobility — Se déplacer proprement, partout en Afrique",desc:"Béryl E-Mobility est le service de transport à la demande 100% électrique de l'écosystème Béryl. Chaque trajet est tracé, tarifé de manière transparente, payé via BérylPay et converti en impact environnemental mesurable inscrit au profil du passager.",points:["Réservation VTC électrique en temps réel (carte + ETA)","Flotte 100% véhicules électriques : zéro émission","Tarification dynamique transparente avant validation","Paiement natif BérylPay : wallet, QR, mobile money","Calcul CO₂ évité par trajet, affiché et cumulé dans le profil","BérylGreen Points : loyauté récompensant la mobilité verte","Tableau de bord chauffeur : revenus, trajets, score, impact carbone"],uvp:"Le premier VTC africain où chaque trajet est un acte économique, un geste écologique et une contribution à la transition énergétique."},
+  {e:"🌱",t:"ESG",color:"#00C4B4",title:"BérylESG / GreenOS — Mesurer, certifier et monétiser l'impact vert",desc:"BérylESG, propulsé par GreenOS, est le moteur de responsabilité ESG de l'écosystème Béryl. Système natif de scoring ESG évaluant en continu les comportements des utilisateurs et des entreprises, traduits en crédits carbone certifiables et en score IAESG. Protocole MRV conforme Gold Standard et Verra VCS.",points:["Score IAESG individuel et entreprise en temps réel","MRV intégré : mesure automatique des émissions évitées","Génération de crédits carbone certifiables depuis la flotte électrique","Tableau de bord ESG entreprise : reporting réglementaire, audit trail","Marketplace crédits carbone entre entreprises et ONG","Conformité : ODD ONU, Accord de Paris, CSRD européenne","API ouverte pour banques, assureurs et fonds ESG"],uvp:"GreenOS est le premier système d'exploitation vert africain — chaque tonne de CO₂ évitée devient un actif financier réel."},
+  {e:"📊",t:"Audit PME",color:"#D4AF37",title:"Audit PME Béryl — Le cabinet comptable dans votre poche",desc:"Le module Audit PME s'adresse aux PME africaines sans accès à des outils comptables professionnels abordables. Il offre un journal comptable intelligent, le BFOS (Béryl Financial Operations Score) et des recommandations personnalisées générées par BérylAI.",points:["Journal comptable digital : recettes, dépenses, factures simplifié","BFOS : score de santé financière sur 1000","Bilan mensuel automatique : P&L, trésorerie, ratios clés","Recommandations IA : optimisation des charges, alertes risque","Déclarations fiscales pré-remplies compatibles administrations locales","Rapports bancaires pour dossiers de crédit","Tableau de bord partageable avec expert-comptable ou investisseur"],uvp:"Audit PME Béryl transforme la PME informelle africaine en acteur bankable, crédible et compétitif."},
+  {e:"⚙️",t:"Tech",color:"#FF9F0A",title:"beryl-os-core — Architecture conçue pour l'Afrique, calibrée pour le monde",desc:"L'architecture Béryl repose sur beryl-os-core, noyau d'orchestration de microservices cloud-native. Chaque verticale est un microservice indépendant, versionné et déployable séparément. BérylAI alimente en temps réel le scoring financier, la personnalisation, la détection de fraude et les recommandations ESG.",points:["Microservices REST/gRPC : auth, payment, mobility, esg, community, audit","API Gateway centralisée avec rate limiting, routing et versioning","Event-driven via Kafka/Pub-Sub pour communication inter-services","PostgreSQL + Redis + Firestore selon les cas d'usage","Docker + Kubernetes sur GCP / infrastructure africaine","Android Jetpack Compose : MVVM + Clean Architecture + Offline-first","BérylAI : NLP multilingue, scoring BFOS/IAESG, détection fraude temps réel"],uvp:"beryl-os-core : architecture enterprise déployée avec l'agilité d'une startup — scalable à 100M utilisateurs."},
+  {e:"🔒",t:"Sécurité",color:"#FF453A",title:"Sécurité Béryl — La confiance comme fondation irréductible",desc:"La sécurité est la pierre angulaire de l'écosystème Béryl — une philosophie architecturale intégrée dès la conception. sentinel-core surveille en permanence l'intégrité des transactions, sessions et flux de données. Béryl combine les standards internationaux et les exigences spécifiques BCEAO pour l'espace UEMOA.",points:["Firebase Auth : OTP SMS, biométrie, MFA obligatoire pour opérations financières","PIN bancaire chiffré AES-256 — jamais transmis en clair","JWT signés avec rotation automatique des tokens","sentinel-core : détection anomalies, blacklist IP, alertes push temps réel","Logs d'audit immuables pour toutes les opérations financières","Conformité BCEAO EME, KYC/AML, RGPD, TLS 1.3","Politique Zero Trust : aucun microservice ne fait confiance sans vérification"],uvp:"La sécurité Béryl est une architecture vivante, surveillée 24h/24 — protégeant chaque centime, chaque donnée et chaque identité."}
+];
+
+let currentAboutTab = 0;
+
+function setAboutTab(i){
+  currentAboutTab = i;
+  document.querySelectorAll('.abt-pill').forEach((el,j)=>{
+    el.style.background = j===i?'#014421':'#131E16';
+    el.style.borderColor = j===i?'#00FF88':'#1A2820';
+    el.style.color = j===i?'#fff':'#6E9A7A';
+  });
+  const d = aboutData[i];
+  const el = document.getElementById('about-content');
+  if(!el) return;
+  el.innerHTML = `
+    <div style="color:${d.color};font-weight:900;font-size:13px;margin-bottom:8px">${d.title}</div>
+    <div style="color:#B0C4B8;margin-bottom:10px;font-size:11px;line-height:1.7">${d.desc}</div>
+    <div style="margin-bottom:10px">${d.points.map(p=>`<div style="display:flex;gap:8px;margin-bottom:5px;align-items:flex-start"><span style="color:${d.color};flex-shrink:0">▸</span><span style="color:#E8F5EC;font-size:11px">${p}</span></div>`).join('')}</div>
+    <div style="background:${d.color}18;border:1px solid ${d.color}44;border-radius:10px;padding:10px;color:${d.color};font-style:italic;font-size:11px">💡 ${d.uvp}</div>
+  `;
+}
+
 
 let cur = 0;
 
