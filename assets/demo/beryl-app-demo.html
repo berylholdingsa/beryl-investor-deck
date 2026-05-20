@@ -3,11 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Béryl App Demo</title>
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { background: #0A0A0F; overflow: hidden; }
-#root { width: 100vw; height: 100vh; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#0A0A0F; overflow:hidden; }
+  #root { width:100vw; height:100vh; }
 </style>
 </head>
 <body>
@@ -19,527 +18,565 @@ body { background: #0A0A0F; overflow: hidden; }
 const { useState, useEffect, useRef } = React;
 
 const C = {
-  obsidian: "#0A0A0F",
-  emerald: "#014421",
-  accent: "#00C46A",
-  accentDim: "#00A856",
-  gold: "#D4AF37",
-  white: "#FFFFFF",
-  grayLt: "#E8F1ED",
-  gray: "#8A9A8F",
-  surface: "#111816",
-  surfaceHi: "#1A2820",
-  red: "#E74C3C",
-  blue: "#3498DB",
-  orange: "#E67E22",
+  obsidian:"#0A0A0F", emerald:"#014421",
+  accent:"#00C46A", accentDim:"#00A856",
+  gold:"#D4AF37", white:"#FFFFFF",
+  gray:"#8A9A8F", surface:"#111816",
+  surfaceHi:"#1A2820", red:"#E74C3C",
+  blue:"#3498DB", orange:"#E67E22",
 };
 
-const SCREENS = ["splash", "home", "community", "chat", "pay", "mobility", "esg"];
+const SCREENS = ["splash","home","community","chat","pay","mobility","esg"];
 
-const DEMO_STEPS = [
-  { screen: "splash", duration: 2000 },
-  { screen: "home", duration: 2800 },
-  { screen: "community", duration: 2500 },
-  { screen: "chat", duration: 3000 },
-  { screen: "pay", duration: 3000 },
-  { screen: "mobility", duration: 2800 },
-  { screen: "esg", duration: 2500 },
-  { screen: "home", duration: 2000 },
+const DEMO_SEQ = [
+  {screen:"splash",  duration:2000},
+  {screen:"home",    duration:3000},
+  {screen:"community",duration:2500},
+  {screen:"chat",    duration:3000},
+  {screen:"pay",     duration:3000},
+  {screen:"mobility",duration:3000},
+  {screen:"esg",     duration:3000},
 ];
 
-const time = () => new Date().toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" });
-
-function PhoneFrame({ children }) {
+function SplashScreen() {
   return (
     <div style={{
-      width: "100%", height: "100%",
-      background: C.obsidian,
-      overflow: "hidden",
-      position: "relative",
-      fontFamily: "'Segoe UI', system-ui, sans-serif",
+      width:"100%",height:"100%",
+      background:`linear-gradient(135deg,${C.obsidian},${C.emerald})`,
+      display:"flex",flexDirection:"column",
+      alignItems:"center",justifyContent:"center",gap:20
     }}>
       <div style={{
-        height: 36, background: "rgba(0,0,0,0.4)",
-        display: "flex", alignItems: "center",
-        justifyContent: "space-between",
-        padding: "0 20px", zIndex: 100,
-        position: "absolute", top: 0, left: 0, right: 0,
+        width:80,height:80,borderRadius:"50%",
+        background:C.emerald,border:`3px solid ${C.accent}`,
+        display:"flex",alignItems:"center",justifyContent:"center",
+        fontSize:36,boxShadow:`0 0 30px ${C.accent}44`
+      }}>🐘</div>
+      <div style={{
+        fontFamily:"sans-serif",fontSize:28,
+        fontWeight:800,color:C.white,letterSpacing:2
+      }}>BÉRYL</div>
+      <div style={{
+        fontFamily:"sans-serif",fontSize:11,
+        color:C.accent,letterSpacing:4,textTransform:"uppercase"
+      }}>Super-App Africaine</div>
+      <div style={{
+        width:120,height:3,borderRadius:2,
+        background:`linear-gradient(90deg,${C.accent},${C.gold})`,
+        marginTop:10
+      }}></div>
+    </div>
+  );
+}
+
+function HomeScreen() {
+  return (
+    <div style={{
+      width:"100%",height:"100%",
+      background:C.obsidian,
+      display:"flex",flexDirection:"column",
+      overflow:"hidden",fontFamily:"sans-serif"
+    }}>
+      <div style={{
+        background:C.emerald,padding:"16px 16px 24px",
+        background:`linear-gradient(135deg,${C.emerald},#012A15)`
       }}>
-        <span style={{ fontSize: 11, color: C.white, fontWeight: 600 }}>{time()}</span>
-        <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
-          <div style={{ display: "flex", gap: 2, alignItems: "flex-end" }}>
-            {[3,5,7,9].map((h, i) => (
-              <div key={i} style={{ width: 3, height: h, background: C.white, borderRadius: 1 }} />
+        <div style={{display:"flex",justifyContent:"space-between",
+          alignItems:"center",marginBottom:12}}>
+          <div style={{color:C.accent,fontSize:12,fontWeight:700}}>
+            🐘 BÉRYL APP
+          </div>
+          <div style={{fontSize:18}}>🔔</div>
+        </div>
+        <div style={{color:"rgba(255,255,255,0.7)",fontSize:11}}>
+          Solde BérylPay
+        </div>
+        <div style={{color:C.white,fontSize:28,fontWeight:800,margin:"4px 0"}}>
+          125 430 FCFA
+        </div>
+        <div style={{color:C.accent,fontSize:11}}>
+          ↑ +2,3% ce mois
+        </div>
+      </div>
+      <div style={{
+        display:"grid",gridTemplateColumns:"repeat(4,1fr)",
+        gap:8,padding:12,background:C.surface
+      }}>
+        {[
+          {icon:"💸",label:"Envoyer"},
+          {icon:"🚗",label:"VTC"},
+          {icon:"📱",label:"Recharge"},
+          {icon:"🌿",label:"ESG"},
+        ].map(a=>(
+          <div key={a.label} style={{
+            display:"flex",flexDirection:"column",
+            alignItems:"center",gap:4,padding:"8px 4px",
+            background:C.surfaceHi,borderRadius:10,
+            border:`1px solid ${C.accent}22`
+          }}>
+            <span style={{fontSize:20}}>{a.icon}</span>
+            <span style={{color:C.gray,fontSize:9,fontWeight:600}}>
+              {a.label}
+            </span>
+          </div>
+        ))}
+      </div>
+      <div style={{padding:"0 12px",flex:1}}>
+        <div style={{color:C.gray,fontSize:11,
+          marginBottom:8,marginTop:8}}>
+          Transactions récentes
+        </div>
+        {[
+          {icon:"💸",name:"Envoi à Kofi",amount:"-5 000",color:C.red},
+          {icon:"🚗",name:"Course VTC",amount:"-1 500",color:C.red},
+          {icon:"📥",name:"Reçu de Ama",amount:"+20 000",color:C.accent},
+        ].map((t,i)=>(
+          <div key={i} style={{
+            display:"flex",alignItems:"center",gap:10,
+            padding:"8px 0",borderBottom:`1px solid ${C.surfaceHi}`
+          }}>
+            <span style={{fontSize:18}}>{t.icon}</span>
+            <div style={{flex:1}}>
+              <div style={{color:C.white,fontSize:12,fontWeight:600}}>
+                {t.name}
+              </div>
+            </div>
+            <div style={{color:t.color,fontSize:12,fontWeight:700}}>
+              {t.amount}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function CommunityScreen() {
+  return (
+    <div style={{
+      width:"100%",height:"100%",
+      background:C.obsidian,fontFamily:"sans-serif"
+    }}>
+      <div style={{
+        padding:"14px 14px 10px",
+        borderBottom:`1px solid ${C.surfaceHi}`
+      }}>
+        <div style={{color:C.white,fontSize:16,fontWeight:800}}>
+          BérylCommunity
+        </div>
+        <div style={{color:C.accent,fontSize:10}}>
+          Réseau social africain
+        </div>
+      </div>
+      <div style={{
+        display:"flex",gap:10,padding:"10px 14px",
+        overflowX:"auto"
+      }}>
+        {["Ama","Kofi","Yaw","Akua","Kwame"].map((n,i)=>(
+          <div key={n} style={{
+            display:"flex",flexDirection:"column",
+            alignItems:"center",gap:4,minWidth:48
+          }}>
+            <div style={{
+              width:44,height:44,borderRadius:"50%",
+              background:`linear-gradient(135deg,${C.emerald},${C.accent})`,
+              border:`2px solid ${i===0?C.accent:"transparent"}`,
+              display:"flex",alignItems:"center",justifyContent:"center",
+              color:C.white,fontWeight:700,fontSize:14
+            }}>{n[0]}</div>
+            <span style={{color:C.gray,fontSize:9}}>{n}</span>
+          </div>
+        ))}
+      </div>
+      {[
+        {name:"Kofi Mensah",msg:"T'as reçu mon transfert ?",
+          time:"09:18",unread:2},
+        {name:"Ama Owusu",msg:"Commande VTC confirmée ✅",
+          time:"08:45",unread:0},
+        {name:"Groupe Tontine",msg:"Cotisation du mois 💰",
+          time:"hier",unread:5},
+      ].map((c,i)=>(
+        <div key={i} style={{
+          display:"flex",alignItems:"center",gap:10,
+          padding:"10px 14px",
+          borderBottom:`1px solid ${C.surfaceHi}`
+        }}>
+          <div style={{
+            width:42,height:42,borderRadius:"50%",
+            background:`linear-gradient(135deg,${C.emerald},${C.accent})`,
+            display:"flex",alignItems:"center",justifyContent:"center",
+            color:C.white,fontWeight:700,fontSize:15,flexShrink:0
+          }}>{c.name[0]}</div>
+          <div style={{flex:1,minWidth:0}}>
+            <div style={{color:C.white,fontSize:13,fontWeight:600}}>
+              {c.name}
+            </div>
+            <div style={{
+              color:C.gray,fontSize:11,
+              overflow:"hidden",textOverflow:"ellipsis",
+              whiteSpace:"nowrap"
+            }}>{c.msg}</div>
+          </div>
+          <div style={{display:"flex",flexDirection:"column",
+            alignItems:"flex-end",gap:4}}>
+            <span style={{color:C.gray,fontSize:10}}>{c.time}</span>
+            {c.unread>0&&(
+              <span style={{
+                background:C.accent,color:C.obsidian,
+                fontSize:10,fontWeight:800,
+                width:18,height:18,borderRadius:"50%",
+                display:"flex",alignItems:"center",justifyContent:"center"
+              }}>{c.unread}</span>
+            )}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function ChatScreen() {
+  return (
+    <div style={{
+      width:"100%",height:"100%",
+      background:C.obsidian,fontFamily:"sans-serif",
+      display:"flex",flexDirection:"column"
+    }}>
+      <div style={{
+        display:"flex",alignItems:"center",gap:10,
+        padding:"12px 14px",
+        borderBottom:`1px solid ${C.surfaceHi}`,
+        background:C.surface
+      }}>
+        <div style={{
+          width:36,height:36,borderRadius:"50%",
+          background:`linear-gradient(135deg,${C.emerald},${C.accent})`,
+          display:"flex",alignItems:"center",justifyContent:"center",
+          color:C.white,fontWeight:700
+        }}>K</div>
+        <div>
+          <div style={{color:C.white,fontSize:13,fontWeight:700}}>
+            Kofi Mensah
+          </div>
+          <div style={{color:C.accent,fontSize:10}}>En ligne</div>
+        </div>
+      </div>
+      <div style={{flex:1,padding:"10px 12px",
+        display:"flex",flexDirection:"column",gap:8,overflow:"auto"}}>
+        <div style={{
+          alignSelf:"flex-start",
+          background:C.surfaceHi,padding:"8px 12px",
+          borderRadius:"14px 14px 14px 4px",
+          color:C.white,fontSize:12,maxWidth:"75%"
+        }}>
+          Wôrô ! T'as le 50k ?
+        </div>
+        <div style={{
+          alignSelf:"flex-end",
+          background:`linear-gradient(135deg,${C.emerald},#012A15)`,
+          padding:"8px 12px",
+          borderRadius:"14px 14px 4px 14px",
+          color:C.white,fontSize:12,maxWidth:"75%"
+        }}>
+          Oui je t'envoie via BérylPay
+        </div>
+        <div style={{
+          alignSelf:"flex-end",
+          background:`linear-gradient(135deg,#1A3A2A,#0D2A1A)`,
+          border:`1px solid ${C.accent}44`,
+          padding:"10px 12px",borderRadius:12,maxWidth:"80%"
+        }}>
+          <div style={{color:C.accent,fontSize:10,fontWeight:700,
+            marginBottom:4}}>💸 BérylPay</div>
+          <div style={{color:C.white,fontSize:16,fontWeight:800}}>
+            50 000 FCFA
+          </div>
+          <div style={{color:C.gray,fontSize:10,marginTop:2}}>
+            Commission : 0 FCFA ✓
+          </div>
+        </div>
+        <div style={{
+          alignSelf:"flex-start",
+          background:C.surfaceHi,padding:"8px 12px",
+          borderRadius:"14px 14px 14px 4px",
+          color:C.white,fontSize:12,maxWidth:"75%"
+        }}>
+          Reçu merci ! 🙏
+        </div>
+        <div style={{
+          alignSelf:"flex-end",
+          background:`linear-gradient(135deg,#1A2A3A,#0D1A2A)`,
+          border:`1px solid ${C.blue}44`,
+          padding:"10px 12px",borderRadius:12,maxWidth:"80%"
+        }}>
+          <div style={{color:C.blue,fontSize:10,fontWeight:700,
+            marginBottom:4}}>🚗 Béryl E-Mobility</div>
+          <div style={{color:C.white,fontSize:12,fontWeight:600}}>
+            VTC réservé pour toi
+          </div>
+          <div style={{color:C.gray,fontSize:10,marginTop:2}}>
+            EPM Schammah · 5 min ✓
+          </div>
+        </div>
+      </div>
+      <div style={{
+        padding:"8px 12px",
+        background:C.surface,
+        borderTop:`1px solid ${C.surfaceHi}`,
+        display:"flex",gap:8,alignItems:"center"
+      }}>
+        <div style={{
+          flex:1,background:C.surfaceHi,borderRadius:20,
+          padding:"8px 14px",color:C.gray,fontSize:12
+        }}>Message...</div>
+        <div style={{
+          width:36,height:36,borderRadius:"50%",
+          background:`linear-gradient(135deg,${C.accent},${C.emerald})`,
+          display:"flex",alignItems:"center",justifyContent:"center",
+          fontSize:16
+        }}>➤</div>
+      </div>
+    </div>
+  );
+}
+
+function PayScreen() {
+  return (
+    <div style={{
+      width:"100%",height:"100%",
+      background:C.obsidian,fontFamily:"sans-serif"
+    }}>
+      <div style={{
+        background:`linear-gradient(135deg,${C.emerald},#012A15)`,
+        padding:"16px 16px 28px"
+      }}>
+        <div style={{color:C.accent,fontSize:12,fontWeight:700,
+          marginBottom:8}}>
+          💳 BérylPay
+        </div>
+        <div style={{color:"rgba(255,255,255,0.7)",fontSize:11}}>
+          Solde disponible
+        </div>
+        <div style={{color:C.white,fontSize:26,fontWeight:800,
+          margin:"4px 0"}}>
+          125 430 FCFA
+        </div>
+        <div style={{color:C.gold,fontSize:11}}>
+          ★ KYC validé · Plafond 5M FCFA
+        </div>
+      </div>
+      <div style={{padding:14}}>
+        <div style={{color:C.gray,fontSize:11,marginBottom:10,
+          fontWeight:700,letterSpacing:1,textTransform:"uppercase"}}>
+          Envoyer de l'argent
+        </div>
+        <div style={{
+          display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:8
+        }}>
+          {[
+            {icon:"📱",label:"Numéro"},
+            {icon:"👤",label:"Contact"},
+            {icon:"📷",label:"QR Pay"},
+            {icon:"🔗",label:"Lien"},
+            {icon:"📧",label:"Email"},
+            {icon:"🏦",label:"IBAN"},
+          ].map(m=>(
+            <div key={m.label} style={{
+              background:C.surface,borderRadius:10,
+              padding:"10px 6px",textAlign:"center",
+              border:`1px solid ${C.surfaceHi}`
+            }}>
+              <div style={{fontSize:20}}>{m.icon}</div>
+              <div style={{color:C.gray,fontSize:10,marginTop:4}}>
+                {m.label}
+              </div>
+            </div>
+          ))}
+        </div>
+        <div style={{
+          marginTop:12,padding:"10px 14px",
+          background:C.surface,borderRadius:10,
+          border:`1px solid ${C.accent}22`
+        }}>
+          <div style={{color:C.white,fontSize:12,fontWeight:600}}>
+            💰 Recharge opérateurs CI
+          </div>
+          <div style={{
+            display:"flex",gap:8,marginTop:8
+          }}>
+            {["🟠 Orange","🟡 MTN","🔵 Moov","🌊 Wave"].map(op=>(
+              <span key={op} style={{
+                background:C.surfaceHi,borderRadius:6,
+                padding:"4px 8px",color:C.gray,fontSize:10
+              }}>{op}</span>
             ))}
           </div>
-          <div style={{ display: "flex", alignItems: "center", gap: 1 }}>
-            <div style={{ width: 18, height: 10, border: `1.5px solid ${C.white}`, borderRadius: 2,
-              display: "flex", alignItems: "center", padding: "1px" }}>
-              <div style={{ width: "75%", height: "100%", background: C.accent, borderRadius: 1 }} />
-            </div>
-            <div style={{ width: 2, height: 5, background: C.white, borderRadius: 1 }} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function MobilityScreen() {
+  return (
+    <div style={{
+      width:"100%",height:"100%",
+      background:C.obsidian,fontFamily:"sans-serif",
+      display:"flex",flexDirection:"column"
+    }}>
+      <div style={{padding:"14px 14px 8px"}}>
+        <div style={{color:C.white,fontSize:15,fontWeight:800}}>
+          🚗 Béryl E-Mobility
+        </div>
+        <div style={{color:C.accent,fontSize:10}}>
+          VTC 100% électrique
+        </div>
+      </div>
+      <div style={{
+        flex:1,background:`linear-gradient(135deg,#0A1F0F,#051209)`,
+        margin:"0 12px",borderRadius:16,
+        display:"flex",alignItems:"center",justifyContent:"center",
+        position:"relative",overflow:"hidden",
+        border:`1px solid ${C.accent}22`
+      }}>
+        <div style={{textAlign:"center"}}>
+          <div style={{fontSize:40,marginBottom:8}}>🗺️</div>
+          <div style={{color:C.accent,fontSize:11,fontWeight:700}}>
+            15 VE disponibles
+          </div>
+          <div style={{color:C.gray,fontSize:10,marginTop:4}}>
+            Abidjan Plateau
           </div>
         </div>
-      </div>
-      {children}
-    </div>
-  );
-}
-
-function NavBar({ active, onNav }) {
-  const tabs = [
-    { id: "home", icon: "⊞", label: "Accueil" },
-    { id: "community", icon: "💬", label: "Community" },
-    { id: "pay", icon: "₣", label: "Pay" },
-    { id: "mobility", icon: "⚡", label: "Mobilité" },
-    { id: "esg", icon: "🌿", label: "ESG" },
-  ];
-  return (
-    <div style={{
-      position: "absolute", bottom: 0, left: 0, right: 0, height: 68,
-      background: "rgba(10,10,15,0.97)",
-      borderTop: `1px solid ${C.surfaceHi}`,
-      display: "flex", alignItems: "center", justifyContent: "space-around",
-      backdropFilter: "blur(20px)",
-      padding: "0 4px 6px",
-    }}>
-      {tabs.map(t => (
-        <button key={t.id} onClick={() => onNav(t.id)} style={{
-          background: "none", border: "none", cursor: "pointer",
-          display: "flex", flexDirection: "column", alignItems: "center", gap: 2,
-          padding: "6px 8px",
-        }}>
-          <span style={{ fontSize: 20 }}>{t.icon}</span>
-          <span style={{
-            fontSize: 9, fontWeight: 600, letterSpacing: 0.3,
-            color: active === t.id ? C.accent : C.gray,
-          }}>{t.label}</span>
-          {active === t.id && (
-            <div style={{ width: 20, height: 2, background: C.accent, borderRadius: 1, marginTop: -2 }} />
-          )}
-        </button>
-      ))}
-    </div>
-  );
-}
-
-function SplashScreen() {
-  const [show, setShow] = useState(false);
-  useEffect(() => { const t = setTimeout(() => setShow(true), 300); return () => clearTimeout(t); }, []);
-  return (
-    <div style={{
-      position: "absolute", inset: 0,
-      background: `radial-gradient(ellipse at 50% 60%, #014421 0%, #011A0D 50%, #0A0A0F 100%)`,
-      display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
-      gap: 12,
-    }}>
-      {[1.4, 1.2, 1.0].map((scale, i) => (
-        <div key={i} style={{
-          position: "absolute",
-          width: 160 * scale, height: 160 * scale,
-          borderRadius: "50%",
-          border: `1px solid rgba(0,196,106,${0.06 + i * 0.04})`,
-          animation: `pulse ${2 + i * 0.4}s ease-in-out infinite`,
-          animationDelay: `${i * 0.3}s`,
-        }} />
-      ))}
-      <div style={{
-        width: 80, height: 80, borderRadius: 24,
-        background: `linear-gradient(135deg, #014421, #00C46A)`,
-        display: "flex", alignItems: "center", justifyContent: "center",
-        fontSize: 38, fontWeight: 900, color: C.white,
-        boxShadow: `0 0 40px rgba(0,196,106,0.4)`,
-        opacity: show ? 1 : 0,
-        transform: `scale(${show ? 1 : 0.8})`,
-        transition: "all 0.6s cubic-bezier(0.34,1.56,0.64,1)",
-      }}>B</div>
-      <div style={{
-        opacity: show ? 1 : 0,
-        transform: `translateY(${show ? 0 : 12}px)`,
-        transition: "all 0.6s ease 0.3s",
-        textAlign: "center",
-      }}>
-        <div style={{ fontSize: 26, fontWeight: 800, color: C.white, letterSpacing: 2 }}>BÉRYL</div>
-        <div style={{ fontSize: 11, color: C.accent, letterSpacing: 3, marginTop: 4 }}>APP</div>
-        <div style={{ fontSize: 9.5, color: C.gray, marginTop: 8, letterSpacing: 0.5 }}>Super-App intelligente africaine</div>
-      </div>
-      <div style={{
-        position: "absolute", bottom: 80, left: 40, right: 40,
-        height: 2, background: C.surfaceHi, borderRadius: 1, overflow: "hidden",
-      }}>
-        <div style={{
-          height: "100%", background: C.accent, borderRadius: 1,
-          animation: "loadBar 1.8s ease forwards",
-          animationDelay: "0.5s",
-          width: 0,
-        }} />
-      </div>
-      <style>{`
-        @keyframes pulse { 0%,100%{opacity:0.4;transform:scale(1)} 50%{opacity:0.8;transform:scale(1.03)} }
-        @keyframes loadBar { to{width:100%} }
-      `}</style>
-    </div>
-  );
-}
-
-function HomeScreen({ onNav }) {
-  return (
-    <div style={{ position: "absolute", inset: 0, background: C.obsidian, overflowY: "auto", paddingTop: 40 }}>
-      <div style={{ padding: "16px 20px 8px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <div>
-          <div style={{ fontSize: 11, color: C.gray }}>Bonjour 👋</div>
-          <div style={{ fontSize: 18, fontWeight: 700, color: C.white }}>Tiémoko</div>
-        </div>
-        <div style={{
-          width: 40, height: 40, borderRadius: 20,
-          background: `linear-gradient(135deg, #014421, #00C46A)`,
-          display: "flex", alignItems: "center", justifyContent: "center",
-          fontSize: 16, fontWeight: 700, color: C.white,
-        }}>T</div>
-      </div>
-      <div style={{
-        margin: "8px 16px",
-        background: `linear-gradient(135deg, #014421 0%, #012D16 60%, #011A0D 100%)`,
-        borderRadius: 20, padding: "20px 22px",
-        border: `1px solid rgba(0,196,106,0.2)`,
-        position: "relative", overflow: "hidden",
-      }}>
-        <div style={{ position: "absolute", top: -20, right: -20, width: 100, height: 100, borderRadius: "50%", background: "rgba(0,196,106,0.06)" }} />
-        <div style={{ fontSize: 10, color: C.gray, letterSpacing: 1, marginBottom: 4 }}>SOLDE BÉRYLPAY</div>
-        <div style={{ fontSize: 30, fontWeight: 800, color: C.white }}>125 430 <span style={{ fontSize: 14, color: C.accent }}>FCFA</span></div>
-        <div style={{ fontSize: 10, color: C.gray, marginTop: 6 }}>≈ 191 € · Score KYC ✓ Niveau 2</div>
-        <div style={{ display: "flex", gap: 8, marginTop: 16 }}>
-          {["Envoyer", "Recharger", "QR Pay"].map((btn, i) => (
-            <button key={i} onClick={() => onNav("pay")} style={{
-              flex: 1, padding: "8px 0", borderRadius: 10,
-              background: i === 0 ? C.accent : "rgba(255,255,255,0.08)",
-              border: "none", color: i === 0 ? C.obsidian : C.white,
-              fontSize: 11, fontWeight: 700, cursor: "pointer",
-            }}>{btn}</button>
-          ))}
-        </div>
-      </div>
-      <div style={{ padding: "12px 16px 6px" }}>
-        <div style={{ fontSize: 11, fontWeight: 700, color: C.gray, letterSpacing: 1, marginBottom: 10 }}>ACCÈS RAPIDE</div>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
-          {[
-            { icon: "💬", label: "BérylCommunity", sub: "12 messages", color: "#00C46A", screen: "community" },
-            { icon: "⚡", label: "Réserver un VE", sub: "15 VE disponibles", color: "#D4AF37", screen: "mobility" },
-            { icon: "🌿", label: "Mon Score ESG", sub: "Score : 847 pts", color: "#5B9E74", screen: "esg" },
-            { icon: "📊", label: "Transactions", sub: "Voir l'historique", color: "#7B68EE", screen: "pay" },
-          ].map((item, i) => (
-            <button key={i} onClick={() => onNav(item.screen)} style={{
-              background: C.surface, border: `1px solid ${C.surfaceHi}`,
-              borderRadius: 14, padding: "14px 12px",
-              display: "flex", flexDirection: "column", gap: 6,
-              cursor: "pointer", textAlign: "left",
-            }}>
-              <span style={{ fontSize: 22 }}>{item.icon}</span>
-              <div style={{ fontSize: 12, fontWeight: 700, color: C.white }}>{item.label}</div>
-              <div style={{ fontSize: 10, color: item.color }}>{item.sub}</div>
-            </button>
-          ))}
-        </div>
-      </div>
-      <div style={{ padding: "12px 16px 80px" }}>
-        <div style={{ fontSize: 11, fontWeight: 700, color: C.gray, letterSpacing: 1, marginBottom: 10 }}>RÉCENT</div>
         {[
-          { name: "Koné Ibrahim", type: "Transfert reçu", amount: "+12 500", color: C.accent, icon: "↓" },
-          { name: "Course Béryl VE", type: "Mobilité électrique", amount: "−2 500", color: C.gray, icon: "⚡" },
-          { name: "Tontine Famille", type: "Épargne collective", amount: "−5 000", color: C.gold, icon: "↑" },
-        ].map((tx, i) => (
+          {top:"20%",left:"20%"},{top:"40%",left:"60%"},
+          {top:"65%",left:"30%"},{top:"30%",left:"75%"}
+        ].map((pos,i)=>(
           <div key={i} style={{
-            display: "flex", justifyContent: "space-between", alignItems: "center",
-            padding: "10px 0", borderBottom: `1px solid ${C.surfaceHi}`,
+            position:"absolute",
+            top:pos.top,left:pos.left,
+            fontSize:16
+          }}>🚗</div>
+        ))}
+      </div>
+      <div style={{padding:12}}>
+        <div style={{
+          background:`linear-gradient(135deg,${C.emerald},#012A15)`,
+          borderRadius:12,padding:"12px 14px",
+          border:`1px solid ${C.accent}44`
+        }}>
+          <div style={{color:C.accent,fontSize:11,fontWeight:700}}>
+            EPM Electra Schammah
+          </div>
+          <div style={{
+            display:"flex",justifyContent:"space-between",
+            marginTop:6
           }}>
-            <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
-              <div style={{ width: 36, height: 36, borderRadius: 18, background: C.surfaceHi, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14 }}>{tx.icon}</div>
-              <div>
-                <div style={{ fontSize: 12, fontWeight: 600, color: C.white }}>{tx.name}</div>
-                <div style={{ fontSize: 10, color: C.gray }}>{tx.type}</div>
-              </div>
-            </div>
-            <div style={{ fontSize: 13, fontWeight: 700, color: tx.color }}>{tx.amount} <span style={{ fontSize: 9, color: C.gray }}>FCFA</span></div>
+            <span style={{color:C.white,fontSize:11}}>⚡ 320 km autonomie</span>
+            <span style={{color:C.gold,fontSize:11,fontWeight:700}}>
+              1 500 FCFA
+            </span>
           </div>
-        ))}
-      </div>
-      <NavBar active="home" onNav={onNav} />
-    </div>
-  );
-}
-
-function CommunityScreen({ onNav }) {
-  const convos = [
-    { name: "Famille Coulibaly", msg: "Bonne arrivée ! 🙏", time: "10:42", unread: 3, avatar: "FC" },
-    { name: "Groupe Tontine CI", msg: "Réunion vendredi 18h", time: "09:15", unread: 12, avatar: "GT" },
-    { name: "Adama Traoré", msg: "Tu peux m'envoyer 5 000 FCFA ?", time: "Hier", unread: 1, avatar: "AT" },
-    { name: "Équipe Béryl", msg: "Phase 1 : 15 VE déployés ✅", time: "Hier", unread: 0, avatar: "BE" },
-    { name: "Marie-Ange D.", msg: "📍 Je vous partage ma localisation", time: "Lun", unread: 0, avatar: "MD" },
-  ];
-  return (
-    <div style={{ position: "absolute", inset: 0, background: C.obsidian, paddingTop: 40 }}>
-      <div style={{ padding: "12px 16px 8px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <div style={{ fontSize: 20, fontWeight: 800, color: C.white }}>BérylCommunity</div>
-        <div style={{ display: "flex", gap: 12 }}>
-          <span style={{ fontSize: 18, cursor: "pointer" }}>🔍</span>
-          <span style={{ fontSize: 18, cursor: "pointer" }}>✏️</span>
-        </div>
-      </div>
-      <div style={{ padding: "8px 16px", display: "flex", gap: 12, overflowX: "auto" }}>
-        {["Ma Story", "Adama", "Marie", "Ibrahim", "Béryl"].map((s, i) => (
-          <div key={i} style={{ flexShrink: 0, display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
-            <div style={{
-              width: 52, height: 52, borderRadius: 26,
-              background: i === 0 ? C.surfaceHi : `linear-gradient(135deg, ${C.accent}, ${C.emerald})`,
-              border: i === 0 ? `2px dashed ${C.gray}` : "none",
-              display: "flex", alignItems: "center", justifyContent: "center",
-              fontSize: i === 0 ? 20 : 15, fontWeight: 700, color: C.white,
-            }}>{i === 0 ? "+" : s[0]}</div>
-            <span style={{ fontSize: 9, color: C.gray, maxWidth: 52, textAlign: "center", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{s}</span>
-          </div>
-        ))}
-      </div>
-      <div style={{ padding: "4px 0 72px", overflowY: "auto", height: "calc(100% - 200px)" }}>
-        {convos.map((c, i) => (
-          <button key={i} onClick={() => onNav("chat")} style={{
-            width: "100%", background: "none", border: "none", cursor: "pointer",
-            padding: "10px 16px", display: "flex", gap: 12, alignItems: "center",
-            borderBottom: `1px solid ${C.surfaceHi}`,
+          <div style={{
+            marginTop:8,background:C.accent,
+            borderRadius:8,padding:"8px",
+            textAlign:"center",
+            color:C.obsidian,fontWeight:800,fontSize:12
           }}>
-            <div style={{
-              width: 46, height: 46, borderRadius: 23, flexShrink: 0,
-              background: `linear-gradient(135deg, #014421, #00C46A)`,
-              display: "flex", alignItems: "center", justifyContent: "center",
-              fontSize: 13, fontWeight: 700, color: C.white,
-            }}>{c.avatar}</div>
-            <div style={{ flex: 1, textAlign: "left" }}>
-              <div style={{ display: "flex", justifyContent: "space-between" }}>
-                <span style={{ fontSize: 13, fontWeight: 600, color: C.white }}>{c.name}</span>
-                <span style={{ fontSize: 10, color: C.gray }}>{c.time}</span>
-              </div>
-              <div style={{ fontSize: 11, color: C.gray, marginTop: 2, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxWidth: 180 }}>{c.msg}</div>
-            </div>
-            {c.unread > 0 && (
-              <div style={{ width: 20, height: 20, borderRadius: 10, background: C.accent, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 10, fontWeight: 700, color: C.obsidian }}>{c.unread}</div>
-            )}
-          </button>
-        ))}
-      </div>
-      <NavBar active="community" onNav={onNav} />
-    </div>
-  );
-}
-
-function ChatScreen({ onNav }) {
-  const [msgInput, setMsgInput] = useState("");
-  const messages = [
-    { from: "them", text: "Salut ! Tu peux m'envoyer 5 000 FCFA pour la course de demain ?", time: "10:12" },
-    { from: "me", text: "Oui pas de problème, j'envoie maintenant depuis BérylPay 👍", time: "10:13" },
-    { from: "me", type: "pay-bubble", text: "💸 Transfert BérylPay", amount: "5 000 FCFA", sub: "Envoyé · Confirmé biométrie", time: "10:13" },
-    { from: "them", text: "Reçu ! Merci beaucoup 🙏 Tu veux qu'on partage un VE demain matin ?", time: "10:14" },
-    { from: "me", type: "mobility-bubble", text: "⚡ Commande VE Béryl", amount: "Mardi 7h00 · Plateau", sub: "EPM Electra Schammah · 2 500 FCFA", time: "10:15" },
-    { from: "them", text: "Parfait ! On se voit demain 🚗💚", time: "10:15" },
-  ];
-  return (
-    <div style={{ position: "absolute", inset: 0, background: C.obsidian, paddingTop: 36 }}>
-      <div style={{ padding: "8px 12px", display: "flex", gap: 10, alignItems: "center", borderBottom: `1px solid ${C.surfaceHi}`, background: "rgba(10,10,15,0.95)" }}>
-        <button onClick={() => onNav("community")} style={{ background: "none", border: "none", cursor: "pointer", color: C.accent, fontSize: 18 }}>←</button>
-        <div style={{ width: 36, height: 36, borderRadius: 18, background: `linear-gradient(135deg, #014421, #00C46A)`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, fontWeight: 700, color: C.white }}>AT</div>
-        <div style={{ flex: 1 }}>
-          <div style={{ fontSize: 13, fontWeight: 700, color: C.white }}>Adama Traoré</div>
-          <div style={{ fontSize: 10, color: C.accent }}>● en ligne</div>
-        </div>
-        <span style={{ fontSize: 16, cursor: "pointer" }}>📞</span>
-      </div>
-      <div style={{ padding: "12px 12px 70px", overflowY: "auto", height: "calc(100% - 130px)", display: "flex", flexDirection: "column", gap: 8 }}>
-        {messages.map((msg, i) => (
-          <div key={i} style={{ display: "flex", justifyContent: msg.from === "me" ? "flex-end" : "flex-start" }}>
-            {msg.type === "pay-bubble" ? (
-              <div style={{ background: `linear-gradient(135deg, #014421, #012D16)`, border: `1px solid rgba(0,196,106,0.4)`, borderRadius: msg.from === "me" ? "16px 4px 16px 16px" : "4px 16px 16px 16px", padding: "10px 14px", maxWidth: 220 }}>
-                <div style={{ fontSize: 11, fontWeight: 700, color: C.accent, marginBottom: 4 }}>{msg.text}</div>
-                <div style={{ fontSize: 20, fontWeight: 800, color: C.white }}>{msg.amount}</div>
-                <div style={{ fontSize: 9.5, color: C.gray, marginTop: 4 }}>{msg.sub}</div>
-                <div style={{ fontSize: 9, color: C.gray, marginTop: 6, textAlign: "right" }}>{msg.time}</div>
-              </div>
-            ) : msg.type === "mobility-bubble" ? (
-              <div style={{ background: `linear-gradient(135deg, #1A1000, #2D1E00)`, border: `1px solid rgba(212,175,55,0.4)`, borderRadius: msg.from === "me" ? "16px 4px 16px 16px" : "4px 16px 16px 16px", padding: "10px 14px", maxWidth: 220 }}>
-                <div style={{ fontSize: 11, fontWeight: 700, color: C.gold, marginBottom: 4 }}>{msg.text}</div>
-                <div style={{ fontSize: 13, fontWeight: 700, color: C.white }}>{msg.amount}</div>
-                <div style={{ fontSize: 9.5, color: C.gray, marginTop: 4 }}>{msg.sub}</div>
-                <div style={{ fontSize: 9, color: C.gray, marginTop: 6, textAlign: "right" }}>{msg.time}</div>
-              </div>
-            ) : (
-              <div style={{ background: msg.from === "me" ? C.emerald : C.surface, borderRadius: msg.from === "me" ? "16px 4px 16px 16px" : "4px 16px 16px 16px", padding: "8px 12px", maxWidth: 220 }}>
-                <div style={{ fontSize: 12, color: C.white, lineHeight: 1.4 }}>{msg.text}</div>
-                <div style={{ fontSize: 9, color: "rgba(255,255,255,0.4)", marginTop: 4, textAlign: "right" }}>{msg.time}</div>
-              </div>
-            )}
+            Commander maintenant
           </div>
-        ))}
-      </div>
-      <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 58, background: "rgba(10,10,15,0.97)", borderTop: `1px solid ${C.surfaceHi}`, display: "flex", alignItems: "center", gap: 8, padding: "0 10px 4px" }}>
-        <button onClick={() => onNav("pay")} style={{ width: 34, height: 34, borderRadius: 17, background: C.emerald, border: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, color: C.white }}>₣</button>
-        <input value={msgInput} onChange={e => setMsgInput(e.target.value)} placeholder="Écrivez un message..." style={{ flex: 1, height: 34, borderRadius: 17, background: C.surfaceHi, border: "none", color: C.white, padding: "0 14px", fontSize: 12, outline: "none" }} />
-        <button style={{ width: 34, height: 34, borderRadius: 17, background: C.accent, border: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14 }}>➤</button>
+        </div>
       </div>
     </div>
   );
 }
 
-function PayScreen({ onNav }) {
-  const [amount, setAmount] = useState("");
+function ESGScreen() {
   return (
-    <div style={{ position: "absolute", inset: 0, background: C.obsidian, paddingTop: 40 }}>
-      <div style={{ padding: "12px 16px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <div style={{ fontSize: 20, fontWeight: 800, color: C.white }}>BérylPay</div>
-        <div style={{ fontSize: 11, color: C.accent, fontWeight: 700, padding: "4px 10px", background: "rgba(0,196,106,0.1)", borderRadius: 8 }}>KYC Niv. 2 ✓</div>
-      </div>
-      <div style={{ margin: "4px 16px 12px", background: `linear-gradient(135deg, #014421, #012D16)`, borderRadius: 16, padding: "16px 18px", border: `1px solid rgba(0,196,106,0.2)` }}>
-        <div style={{ fontSize: 9.5, color: C.gray, letterSpacing: 1 }}>SOLDE DISPONIBLE</div>
-        <div style={{ fontSize: 28, fontWeight: 800, color: C.white, marginTop: 4 }}>125 430 <span style={{ fontSize: 13, color: C.accent }}>FCFA</span></div>
-        <div style={{ fontSize: 9.5, color: C.gray, marginTop: 4 }}>≈ 191 € · Compte vérifié</div>
-      </div>
-      <div style={{ padding: "0 16px" }}>
-        <div style={{ fontSize: 11, fontWeight: 700, color: C.gray, letterSpacing: 1, marginBottom: 10 }}>ENVOYER DE L'ARGENT</div>
-        <div style={{ display: "flex", gap: 10 }}>
-          <input placeholder="Montant (FCFA)" value={amount} onChange={e => setAmount(e.target.value)} style={{ flex: 1, height: 40, borderRadius: 10, background: C.surfaceHi, border: `1px solid ${C.surface}`, color: C.white, padding: "0 12px", fontSize: 13, outline: "none" }} />
-          <button onClick={() => setAmount("5000")} style={{ padding: "0 12px", height: 40, borderRadius: 10, background: C.surfaceHi, border: "none", color: C.gray, fontSize: 11, cursor: "pointer" }}>5K</button>
+    <div style={{
+      width:"100%",height:"100%",
+      background:C.obsidian,fontFamily:"sans-serif",
+      overflow:"auto"
+    }}>
+      <div style={{padding:"14px 14px 8px"}}>
+        <div style={{color:C.white,fontSize:15,fontWeight:800}}>
+          🌿 BérylESG GreenOS
         </div>
-        <div style={{ marginTop: 12, fontSize: 11, fontWeight: 700, color: C.gray, letterSpacing: 1, marginBottom: 8 }}>6 MÉTHODES D'ENVOI</div>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8 }}>
-          {[
-            { icon: "📱", label: "Numéro", color: C.accent },
-            { icon: "👤", label: "Contact", color: C.gold },
-            { icon: "⬛", label: "QR Pay", color: "#7B68EE" },
-            { icon: "🔗", label: "Lien", color: C.blue },
-            { icon: "📧", label: "E-mail", color: C.orange },
-            { icon: "🏦", label: "IBAN", color: "#5B9E74" },
-          ].map((m, i) => (
-            <button key={i} style={{ background: C.surface, border: `1px solid ${C.surfaceHi}`, borderRadius: 10, padding: "10px 6px", display: "flex", flexDirection: "column", alignItems: "center", gap: 4, cursor: "pointer" }}>
-              <span style={{ fontSize: 18 }}>{m.icon}</span>
-              <span style={{ fontSize: 9.5, color: m.color, fontWeight: 600 }}>{m.label}</span>
-            </button>
-          ))}
+        <div style={{color:C.accent,fontSize:10}}>
+          Pédomètre ESG africain
         </div>
       </div>
-      <div style={{ padding: "12px 16px 72px" }}>
-        <div style={{ fontSize: 11, fontWeight: 700, color: C.gray, letterSpacing: 1, marginBottom: 8 }}>RECHARGE MOBILE MONEY</div>
-        <div style={{ display: "flex", gap: 8 }}>
-          {[
-            { name: "Orange", color: "#FF6B00" }, { name: "MTN", color: "#FFCC00" },
-            { name: "Moov", color: "#0099CC" }, { name: "Wave", color: "#00B4D8" },
-          ].map((op, i) => (
-            <div key={i} style={{ flex: 1, padding: "8px 4px", borderRadius: 10, background: C.surface, border: `1px solid ${C.surfaceHi}`, display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
-              <div style={{ width: 28, height: 28, borderRadius: 14, background: op.color, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 10, fontWeight: 700, color: C.white }}>{op.name[0]}</div>
-              <span style={{ fontSize: 8.5, color: C.gray }}>{op.name}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-      <NavBar active="pay" onNav={onNav} />
-    </div>
-  );
-}
-
-function MobilityScreen({ onNav }) {
-  return (
-    <div style={{ position: "absolute", inset: 0, background: C.obsidian, paddingTop: 40 }}>
-      <div style={{ padding: "12px 16px 8px" }}>
-        <div style={{ fontSize: 20, fontWeight: 800, color: C.white }}>Béryl E-Mobility</div>
-        <div style={{ fontSize: 11, color: C.accent }}>⚡ Flotte 100% électrique · EPM Schammah</div>
-      </div>
-      <div style={{ margin: "0 16px", height: 180, borderRadius: 16, background: `linear-gradient(135deg, #0D2016, #091A0F)`, border: `1px solid rgba(0,196,106,0.15)`, position: "relative", overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center" }}>
-        {[...Array(6)].map((_, i) => (<div key={i} style={{ position: "absolute", left: i * 60, top: 0, bottom: 0, width: 1, background: "rgba(0,196,106,0.07)" }} />))}
-        {[...Array(4)].map((_, i) => (<div key={i} style={{ position: "absolute", top: i * 50, left: 0, right: 0, height: 1, background: "rgba(0,196,106,0.07)" }} />))}
-        {[{ x: 80, y: 60 }, { x: 160, y: 100 }, { x: 240, y: 50 }, { x: 120, y: 140 }, { x: 290, y: 130 }].map((pos, i) => (
-          <div key={i} style={{ position: "absolute", left: pos.x, top: pos.y, width: 10, height: 10, borderRadius: 5, background: C.accent, boxShadow: `0 0 8px ${C.accent}`, animation: "pulse2 2s ease-in-out infinite", animationDelay: `${i * 0.4}s` }} />
-        ))}
-        <div style={{ position: "absolute", left: 175, top: 90, width: 16, height: 16, borderRadius: 8, background: C.white, border: `3px solid ${C.accent}`, boxShadow: `0 0 0 6px rgba(0,196,106,0.2)` }} />
-        <div style={{ position: "absolute", top: 8, left: 8, background: "rgba(0,0,0,0.7)", borderRadius: 6, padding: "4px 8px", fontSize: 9, color: C.accent, fontWeight: 700 }}>15 VE disponibles · Abidjan</div>
-        <style>{`@keyframes pulse2 { 0%,100%{opacity:0.7;transform:scale(1)} 50%{opacity:1;transform:scale(1.4)} }`}</style>
-      </div>
-      <div style={{ padding: "10px 16px" }}>
-        <div style={{ fontSize: 11, fontWeight: 700, color: C.gray, letterSpacing: 1, marginBottom: 8 }}>VE À PROXIMITÉ</div>
-        {[
-          { id: "BRL-007", dist: "380m", arrive: "3 min", price: "2 500 FCFA", battery: 94 },
-          { id: "BRL-012", dist: "520m", arrive: "5 min", price: "2 500 FCFA", battery: 78 },
-        ].map((ve, i) => (
-          <div key={i} style={{ background: C.surface, border: `1px solid ${C.surfaceHi}`, borderRadius: 14, padding: "12px 14px", marginBottom: 8, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <div>
-              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                <span style={{ fontSize: 20 }}>⚡</span>
-                <div>
-                  <div style={{ fontSize: 12, fontWeight: 700, color: C.white }}>EPM Schammah · {ve.id}</div>
-                  <div style={{ fontSize: 10, color: C.gray }}>{ve.dist} · {ve.arrive} d'attente</div>
-                </div>
-              </div>
-              <div style={{ display: "flex", gap: 6, marginTop: 6, alignItems: "center" }}>
-                <div style={{ height: 4, width: 60, background: C.surfaceHi, borderRadius: 2, overflow: "hidden" }}>
-                  <div style={{ height: "100%", width: `${ve.battery}%`, background: ve.battery > 50 ? C.accent : C.orange }} />
-                </div>
-                <span style={{ fontSize: 9, color: C.gray }}>{ve.battery}% · 320km</span>
-              </div>
-            </div>
-            <button style={{ background: C.accent, border: "none", borderRadius: 10, padding: "8px 14px", fontSize: 11, fontWeight: 700, color: C.obsidian, cursor: "pointer" }}>{ve.price}</button>
-          </div>
-        ))}
-      </div>
-      <NavBar active="mobility" onNav={onNav} />
-    </div>
-  );
-}
-
-function ESGScreen({ onNav }) {
-  const score = 847;
-  const co2 = "13,2 kg";
-  const pct = (score / 1000) * 100;
-  return (
-    <div style={{ position: "absolute", inset: 0, background: C.obsidian, paddingTop: 40, overflowY: "auto" }}>
-      <div style={{ padding: "12px 16px 8px" }}>
-        <div style={{ fontSize: 20, fontWeight: 800, color: C.white }}>BérylESG GreenOS</div>
-        <div style={{ fontSize: 11, color: "#5B9E74" }}>🌿 Podomètre carbone personnel</div>
-      </div>
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "16px 0 12px" }}>
-        <div style={{ position: "relative", width: 130, height: 130 }}>
-          <svg width="130" height="130" viewBox="0 0 130 130">
-            <circle cx="65" cy="65" r="55" fill="none" stroke="#1A2820" strokeWidth="10" />
-            <circle cx="65" cy="65" r="55" fill="none" stroke="#5B9E74" strokeWidth="10"
-              strokeDasharray={`${2 * Math.PI * 55 * pct / 100} ${2 * Math.PI * 55 * (1 - pct / 100)}`}
-              strokeLinecap="round" transform="rotate(-90 65 65)"
-              style={{ transition: "stroke-dasharray 1.5s ease" }}
-            />
+      <div style={{
+        display:"flex",flexDirection:"column",
+        alignItems:"center",padding:"10px 0"
+      }}>
+        <div style={{position:"relative",width:100,height:100}}>
+          <svg width="100" height="100" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="42" fill="none"
+              stroke="#1A2820" strokeWidth="8"/>
+            <circle cx="50" cy="50" r="42" fill="none"
+              stroke={C.accent} strokeWidth="8"
+              strokeDasharray="220" strokeDashoffset="55"
+              strokeLinecap="round"
+              transform="rotate(-90 50 50)"/>
           </svg>
-          <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-            <div style={{ fontSize: 26, fontWeight: 800, color: C.white }}>{score}</div>
-            <div style={{ fontSize: 9, color: "#5B9E74", fontWeight: 600 }}>pts / 1 000</div>
+          <div style={{
+            position:"absolute",top:"50%",left:"50%",
+            transform:"translate(-50%,-50%)",
+            textAlign:"center"
+          }}>
+            <div style={{color:C.white,fontSize:22,fontWeight:800}}>
+              847
+            </div>
+            <div style={{color:C.gray,fontSize:9}}>/1000</div>
           </div>
         </div>
-        <div style={{ fontSize: 11, color: "#5B9E74", fontWeight: 700, marginTop: 8 }}>Niveau : Éco-Champion 🏆</div>
+        <div style={{color:C.accent,fontSize:11,fontWeight:700,marginTop:6}}>
+          Score IAESG — Excellent
+        </div>
       </div>
-      <div style={{ padding: "0 16px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+      <div style={{
+        display:"grid",gridTemplateColumns:"repeat(3,1fr)",
+        gap:8,padding:"0 12px 12px"
+      }}>
         {[
-          { label: "CO₂ économisé ce mois", value: co2, icon: "🌍", color: "#5B9E74" },
-          { label: "Courses VE effectuées", value: "47", icon: "⚡", color: C.accent },
-          { label: "Arbres équivalents", value: "0,9", icon: "🌳", color: "#5B9E74" },
-          { label: "Rang communauté", value: "#142", icon: "🏅", color: C.gold },
-        ].map((s, i) => (
-          <div key={i} style={{ background: C.surface, border: `1px solid ${C.surfaceHi}`, borderRadius: 14, padding: "12px" }}>
-            <span style={{ fontSize: 22 }}>{s.icon}</span>
-            <div style={{ fontSize: 20, fontWeight: 800, color: s.color, marginTop: 6 }}>{s.value}</div>
-            <div style={{ fontSize: 9.5, color: C.gray, marginTop: 2 }}>{s.label}</div>
+          {icon:"🌱",label:"Environnement",grade:"A+",color:C.accent},
+          {icon:"👥",label:"Social",grade:"B+",color:C.gold},
+          {icon:"🏛️",label:"Gouvernance",grade:"A",color:C.blue},
+        ].map(p=>(
+          <div key={p.label} style={{
+            background:C.surface,borderRadius:10,
+            padding:"10px 6px",textAlign:"center",
+            border:`1px solid ${p.color}22`
+          }}>
+            <div style={{fontSize:18}}>{p.icon}</div>
+            <div style={{color:p.color,fontSize:16,fontWeight:800,
+              marginTop:4}}>
+              {p.grade}
+            </div>
+            <div style={{color:C.gray,fontSize:9,marginTop:2}}>
+              {p.label}
+            </div>
           </div>
         ))}
       </div>
-      <div style={{ margin: "12px 16px 80px", background: `linear-gradient(135deg, #0D2016, #091A0F)`, border: `1px solid rgba(91,158,116,0.3)`, borderRadius: 14, padding: "14px" }}>
-        <div style={{ fontSize: 11, fontWeight: 700, color: "#5B9E74", marginBottom: 6 }}>🌿 Certificat CO₂ ce mois</div>
-        <div style={{ fontSize: 10, color: C.gray, lineHeight: 1.6 }}>
-          Vos 47 courses en VE EPM Electra Schammah ont évité l'émission de <span style={{ color: C.white, fontWeight: 700 }}>{co2} de CO₂</span> par rapport à un véhicule thermique.
+      <div style={{padding:"0 12px"}}>
+        <div style={{
+          background:C.surface,borderRadius:10,padding:12,
+          border:`1px solid ${C.accent}22`
+        }}>
+          <div style={{color:C.white,fontSize:11,fontWeight:700,
+            marginBottom:6}}>
+            💨 CO₂ économisé ce mois
+          </div>
+          <div style={{color:C.accent,fontSize:20,fontWeight:800}}>
+            13,2 kg
+          </div>
+          <div style={{color:C.gray,fontSize:10,marginTop:2}}>
+            Équivalent 1,3 arbres plantés 🌳
+          </div>
         </div>
-        <button style={{ marginTop: 10, width: "100%", padding: "8px", borderRadius: 8, background: "#5B9E74", border: "none", color: C.white, fontSize: 11, fontWeight: 700, cursor: "pointer" }}>
-          Télécharger le certificat PDF
-        </button>
       </div>
-      <NavBar active="esg" onNav={onNav} />
     </div>
   );
 }
@@ -547,104 +584,90 @@ function ESGScreen({ onNav }) {
 function App() {
   const [screen, setScreen] = useState("splash");
   const [isDemo, setIsDemo] = useState(false);
-  const [demoStep, setDemoStep] = useState(0);
-  const [demoProgress, setDemoProgress] = useState(0);
-  const timerRef = useRef(null);
-  const totalDemo = DEMO_STEPS.reduce((a, b) => a + b.duration, 0);
+  const demoRef = useRef(null);
 
-  const runDemo = () => {
+  function runDemo() {
     setIsDemo(true);
-    setDemoStep(0);
-    setDemoProgress(0);
-    setScreen(DEMO_STEPS[0].screen);
-  };
+    let i = 0;
+    function next() {
+      if (i >= DEMO_SEQ.length) { setIsDemo(false); return; }
+      setScreen(DEMO_SEQ[i].screen);
+      demoRef.current = setTimeout(() => { i++; next(); },
+        DEMO_SEQ[i].duration);
+    }
+    next();
+  }
 
   useEffect(() => {
-    if (!isDemo) return;
-    const step = DEMO_STEPS[demoStep];
-    if (!step) { setIsDemo(false); return; }
-    setScreen(step.screen);
-    const startElapsed = DEMO_STEPS.slice(0, demoStep).reduce((a, b) => a + b.duration, 0);
-    let elapsed = 0;
-    const interval = setInterval(() => {
-      elapsed += 50;
-      setDemoProgress(Math.min(100, ((startElapsed + elapsed) / totalDemo) * 100));
-    }, 50);
-    timerRef.current = setTimeout(() => {
-      clearInterval(interval);
-      const next = demoStep + 1;
-      if (next < DEMO_STEPS.length) setDemoStep(next);
-      else { setIsDemo(false); setDemoProgress(0); }
-    }, step.duration);
-    return () => { clearTimeout(timerRef.current); clearInterval(interval); };
-  }, [isDemo, demoStep]);
+    return () => { if (demoRef.current) clearTimeout(demoRef.current); };
+  }, []);
 
-  const renderScreen = () => {
-    switch (screen) {
-      case "splash":    return <SplashScreen />;
-      case "home":      return <HomeScreen onNav={setScreen} />;
-      case "community": return <CommunityScreen onNav={setScreen} />;
-      case "chat":      return <ChatScreen onNav={setScreen} />;
-      case "pay":       return <PayScreen onNav={setScreen} />;
-      case "mobility":  return <MobilityScreen onNav={setScreen} />;
-      case "esg":       return <ESGScreen onNav={setScreen} />;
-      default:          return <HomeScreen onNav={setScreen} />;
+  function renderScreen() {
+    switch(screen) {
+      case "splash":     return <SplashScreen/>;
+      case "home":       return <HomeScreen/>;
+      case "community":  return <CommunityScreen/>;
+      case "chat":       return <ChatScreen/>;
+      case "pay":        return <PayScreen/>;
+      case "mobility":   return <MobilityScreen/>;
+      case "esg":        return <ESGScreen/>;
+      default:           return <HomeScreen/>;
     }
-  };
+  }
 
   return (
     <div style={{
-      width: "100vw", height: "100vh",
-      background: `radial-gradient(ellipse at 30% 20%, rgba(1,68,33,0.15) 0%, #050708 60%)`,
-      display: "flex", flexDirection: "column", alignItems: "center",
-      justifyContent: "center", padding: "16px",
-      fontFamily: "'Segoe UI', system-ui, sans-serif",
-      overflow: "hidden",
+      width:"100vw",height:"100vh",
+      background:C.obsidian,
+      display:"flex",flexDirection:"column"
     }}>
-      <div style={{ width: "100%", maxWidth: 360, height: "100%", maxHeight: 640, display: "flex", flexDirection: "column", gap: 12 }}>
-        <PhoneFrame screen={screen}>
-          {renderScreen()}
-        </PhoneFrame>
-
-        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-          {isDemo && (
-            <div>
-              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
-                <span style={{ fontSize: 10, color: "#00C46A", fontWeight: 700 }}>🔴 {DEMO_STEPS[Math.min(demoStep, DEMO_STEPS.length-1)]?.screen.toUpperCase()}</span>
-                <span style={{ fontSize: 10, color: "#8A9A8F" }}>{Math.round(demoProgress)}%</span>
-              </div>
-              <div style={{ height: 3, background: "#1A2820", borderRadius: 2, overflow: "hidden" }}>
-                <div style={{ height: "100%", background: "#00C46A", borderRadius: 2, width: `${demoProgress}%`, transition: "width 0.1s linear" }} />
-              </div>
-            </div>
-          )}
-          <button onClick={runDemo} style={{
-            width: "100%", height: 42, borderRadius: 12,
-            background: isDemo ? "rgba(0,196,106,0.1)" : "linear-gradient(135deg, #014421, #00C46A)",
-            border: isDemo ? `1px solid #00C46A` : "none",
-            color: isDemo ? "#00C46A" : "#0A0A0F",
-            fontSize: 12, fontWeight: 800, cursor: "pointer", letterSpacing: 0.5,
-          }}>
-            {isDemo ? "⏺ DÉMO EN COURS" : "▶  LANCER LA DÉMO AUTOMATIQUE (≈20s)"}
-          </button>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 6 }}>
-            {[{ id:"home",label:"Home"},{id:"community",label:"Chat"},{id:"pay",label:"Pay"},{id:"mobility",label:"VE"}].map(btn => (
-              <button key={btn.id} onClick={() => { setIsDemo(false); setScreen(btn.id); }} style={{
-                height: 30, borderRadius: 8,
-                background: screen === btn.id ? "rgba(0,196,106,0.15)" : "#111816",
-                border: `1px solid ${screen === btn.id ? "#00C46A" : "#1A2820"}`,
-                color: screen === btn.id ? "#00C46A" : "#8A9A8F",
-                fontSize: 10, fontWeight: 600, cursor: "pointer",
-              }}>{btn.label}</button>
-            ))}
-          </div>
+      <div style={{flex:1,overflow:"hidden",position:"relative"}}>
+        {renderScreen()}
+      </div>
+      <div style={{
+        background:"#0A120D",
+        borderTop:`1px solid ${C.surfaceHi}`,
+        padding:"8px 10px",
+        display:"flex",flexDirection:"column",gap:6
+      }}>
+        <button onClick={runDemo} disabled={isDemo} style={{
+          width:"100%",padding:"8px",borderRadius:8,
+          background:isDemo?"transparent"
+            :`linear-gradient(135deg,${C.emerald},${C.accent})`,
+          border:isDemo?`1px solid ${C.accent}`:"none",
+          color:isDemo?C.accent:C.obsidian,
+          fontSize:11,fontWeight:800,cursor:"pointer",
+          letterSpacing:1
+        }}>
+          {isDemo?"⏺ DÉMO EN COURS":"▶ LANCER LA DÉMO AUTO (≈20s)"}
+        </button>
+        <div style={{
+          display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:4
+        }}>
+          {[
+            {id:"home",label:"Home"},
+            {id:"community",label:"Chat"},
+            {id:"pay",label:"Pay"},
+            {id:"mobility",label:"VE"},
+          ].map(b=>(
+            <button key={b.id}
+              onClick={()=>{setIsDemo(false);setScreen(b.id);}}
+              style={{
+                height:28,borderRadius:6,
+                background:screen===b.id
+                  ?"rgba(0,196,106,0.15)":"#111816",
+                border:`1px solid ${screen===b.id?C.accent:"#1A2820"}`,
+                color:screen===b.id?C.accent:"#8A9A8F",
+                fontSize:10,fontWeight:600,cursor:"pointer"
+              }}>{b.label}</button>
+          ))}
         </div>
       </div>
     </div>
   );
 }
 
-ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
 </script>
 </body>
 </html>
